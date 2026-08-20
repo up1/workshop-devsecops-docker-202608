@@ -6,6 +6,11 @@ RUN npm install
 COPY . .
 # RUN npm run build   # if you had a build step
 
+# ---- Test stage ----
+FROM build AS test
+ENV NODE_ENV=test
+CMD ["npm", "test"]
+
 # ---- Production stage ----
 FROM node:24-alpine AS production
 ENV NODE_ENV=production

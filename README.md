@@ -80,3 +80,9 @@ $npm test
 ```
 $open coverage/lcov-report/index.html
 ```
+
+Run test with docker compose
+```
+$docker compose -f docker-compose-test.yml build
+$docker compose -f docker-compose-test.yml run --rm api-test
+```
