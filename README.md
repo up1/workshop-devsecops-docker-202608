@@ -87,6 +87,14 @@ $docker compose -f docker-compose-test.yml build
 $docker compose -f docker-compose-test.yml run --rm api-test
 ```
 
+## API testing with Postman and Newman
+* [Postman](https://www.postman.com/)
+* [Newman](https://www.npmjs.com/package/newman)
+```
+$docker compose up api-testing --build --abort-on-container-exit
+$docker compose down -v
+```
+
 ## Static code analysis and dependency scanning
 * NPM audit for dependency scanning
 * SonarQube for static code analysis

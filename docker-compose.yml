@@ -9,6 +9,11 @@ services:
       PGPASSWORD: ${PGPASSWORD:-supersecret}
       PGDATABASE: booksdb
       NODE_ENV: production
+    healthcheck:
+      test: [ "CMD-SHELL", "wget -q --spider http://localhost:3000/health || exit 1" ]
+      interval: 3s
+      timeout: 5s
+      retries: 5
     depends_on:
       db:
         condition: service_healthy
@@ -23,9 +28,19 @@ services:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U appuser -d booksdb" ]
-      interval: 10s
+      interval: 5s
       timeout: 5s
       retries: 5
+
+  api-testing:
+    build:
+      context: ./api-testing
+    volumes:
+      - ./api-testing:/src
+      - ./api-testing/reports:/src/reports
+    depends_on:
+      api:
+        condition: service_healthy
 
 volumes: { pgdata: {} }
 networks: { appnet: {} }

@@ -1,0 +1,184 @@
+{
+  "info": {
+    "name": "Books API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GET /health returns ok",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/health", "host": [ "{{baseUrl}}" ], "path": [ "health" ] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('status is ok', function () {",
+              "  pm.expect(pm.response.json().status).to.eql('ok');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /api/books returns a list",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/books", "host": [ "{{baseUrl}}" ], "path": [ "api", "books" ] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('response is an array of books', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.be.an('array');",
+              "  pm.expect(body.length).to.be.above(0);",
+              "  pm.expect(body[0]).to.have.property('id');",
+              "  pm.expect(body[0]).to.have.property('title');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /api/books/:id returns a single book",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/books/1", "host": [ "{{baseUrl}}" ], "path": [ "api", "books", "1" ] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('book has expected shape', function () {",
+              "  const body = pm.response.json();",
+              "  pm.expect(body).to.have.property('id', 1);",
+              "  pm.expect(body).to.have.property('title');",
+              "  pm.expect(body).to.have.property('author');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /api/books/:id returns 404 for a missing book",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{baseUrl}}/api/books/999999", "host": [ "{{baseUrl}}" ], "path": [ "api", "books", "999999" ] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status code is 404', function () {",
+              "  pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /api/books creates a book",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Dune\",\n  \"author\": \"Herbert\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/books", "host": [ "{{baseUrl}}" ], "path": [ "api", "books" ] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status code is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "pm.test('created book has an id', function () {",
+              "  pm.expect(pm.response.json()).to.have.property('id');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /api/books rejects invalid payload",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": { "raw": "{{baseUrl}}/api/books", "host": [ "{{baseUrl}}" ], "path": [ "api", "books" ] }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status code is 400', function () {",
+              "  pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /api/books/:id rejects SQL injection attempt (parameterized query)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/books/1 OR 1=1",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "api", "books", "1 OR 1=1" ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('injection payload is not treated as valid SQL and does not return 200', function () {",
+              "  pm.expect(pm.response.code).to.not.eql(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" }
+  ]
+}
