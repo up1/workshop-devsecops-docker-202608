@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('../db');
+const { isValidBook } = require('../validation');
 
 const router = express.Router();
 
@@ -40,7 +41,7 @@ router.get('/:id', async (req, res, next) => {
 // Parameterized insert: values are bound as $1..$4, never interpolated into SQL.
 router.post('/', async (req, res, next) => {
   const { title, author, isbn, published_year } = req.body;
-  if (!title || !author) {
+  if (!isValidBook(req.body)) {
     return res.status(400).json({ error: 'title and author are required' });
   }
   try {

@@ -4,6 +4,6 @@ const pool = new Pool({
   user: process.env.PGUSER || 'appuser',
   password: process.env.PGPASSWORD,
   database: process.env.PGDATABASE || 'booksdb',
-  port: 5432,
+  port: Number(process.env.PGPORT) || 5432,
 });
 module.exports = pool;

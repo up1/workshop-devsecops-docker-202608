@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:unit": "jest tests/unit --runInBand",
+    "test:integration": "jest tests/integration --runInBand",
+    "test": "jest --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +18,10 @@
     "pg": "^8.23.0"
   },
   "devDependencies": {
+    "@testcontainers/postgresql": "^12.1.0",
     "jest": "^30.4.2",
-    "supertest": "^7.2.2"
+    "jest-junit": "^17.0.0",
+    "supertest": "^7.2.2",
+    "testcontainers": "^12.1.0"
   }
 }

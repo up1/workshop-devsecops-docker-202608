@@ -56,3 +56,27 @@ Remove the containers and volumes
 ```
 $docker compose down -v
 ```
+
+## Testing
+* Unit testing
+* Integration testing with testcontainers
+
+Run unit tests
+```
+$npm run test:unit
+```
+
+Run integration tests
+```
+$npm run test:integration
+```
+
+Run all tests
+```
+$npm test
+```
+
+* See coverage report
+```
+$open coverage/lcov-report/index.html
+```
