@@ -123,7 +123,7 @@ $trivy image somkiat/nodeapi:1.0 \
     --exit-code 1
 ```
 
-# Scan image with trivy and output to json file
+Scan image with trivy and output to json file
 ```
 $trivy image somkiat/nodeapi:1.0 \
     --scanners vuln,secret,misconfig \
@@ -137,3 +137,5 @@ Scan image with trivy in docker compose
 ```
 $docker compose -f docker-compose-static-analysis.yml up trivy-image --abort-on-container-exit
 ```
+
+
