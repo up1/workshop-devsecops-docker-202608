@@ -22,6 +22,9 @@ checkout → build → unit tests → integration tests → SAST → SCA → con
 ## Build and run the application
 * REST API/ with NodeJS and Express
 * Database with PostgreSQL
+* OWASP for Dokcer
+  * [OWASP Docker Top 10](https://owasp.org/www-project-docker-top-10/)
+  * [Docker Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html)
 
 ```
 $docker compose build api
