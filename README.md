@@ -97,7 +97,7 @@ $docker compose -f docker-compose-test.yml run --rm api-test
 $docker compose -f docker-compose-static-analysis.yml up npm-audit --abort-on-container-exit
 $docker compose -f docker-compose-static-analysis.yml up semgrep --abort-on-container-exit
 $docker compose -f docker-compose-static-analysis.yml up trivy --abort-on-container-exit
-$docker compose -f docker-compose-static-analysis.yml down
+$docker compose -f docker-compose-static-analysis.yml down -v
 ```
 
 Commercial tools for static code analysis and dependency scanning
@@ -136,6 +136,7 @@ $trivy image somkiat/nodeapi:1.0 \
 Scan image with trivy in docker compose
 ```
 $docker compose -f docker-compose-static-analysis.yml up trivy-image --abort-on-container-exit
+$docker compose -f docker-compose-static-analysis.yml down -v
 ```
 
 
