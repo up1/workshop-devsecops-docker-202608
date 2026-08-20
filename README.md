@@ -139,4 +139,25 @@ $docker compose -f docker-compose-static-analysis.yml up trivy-image --abort-on-
 $docker compose -f docker-compose-static-analysis.yml down -v
 ```
 
+## Push image to DockerHub
+```
+$docker login
+$docker tag somkiat/nodeapi:1.0 somkiat/nodeapi:latest
+$docker push somkiat/nodeapi:1.0
+```
+
+## Deploy and run the application with docker compose
+```
+$docker compose -f docker-compose-deploy.yml down -v
+
+$docker compose -f docker-compose-deploy.yml up -d
+$docker compose -f docker-compose-deploy.yml ps
+```
+
+Check the health of the API
+
+```
+$curl -i http://localhost:3000/health
+```
+
 
