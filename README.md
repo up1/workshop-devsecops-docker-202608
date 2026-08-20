@@ -105,3 +105,35 @@ Commercial tools for static code analysis and dependency scanning
 * [WhiteSource](https://www.whitesourcesoftware.com/)
 * [Veracode](https://www.veracode.com/)
 * [Checkmarx](https://checkmarx.com/)
+
+## Build and scan images with trivy
+
+Build image
+```
+$docker compose build api
+$docker image ls | grep "somkiat/nodeapi"
+```
+Scan image with trivy
+```
+$trivy image somkiat/nodeapi:1.0 \
+    --scanners vuln,secret,misconfig \
+    --severity HIGH,CRITICAL \
+    --ignore-unfixed \
+    --format table \
+    --exit-code 1
+```
+
+# Scan image with trivy and output to json file
+```
+$trivy image somkiat/nodeapi:1.0 \
+    --scanners vuln,secret,misconfig \
+    --severity HIGH,CRITICAL \
+    --ignore-unfixed \
+    --format json \
+    --output trivy.json
+```
+
+Scan image with trivy in docker compose
+```
+$docker compose -f docker-compose-static-analysis.yml up trivy-image --abort-on-container-exit
+```

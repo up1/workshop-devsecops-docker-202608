@@ -1,2 +1,3 @@
 *.sarif
 npm-audit.json
+trivy.json

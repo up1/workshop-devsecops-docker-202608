@@ -1,5 +1,6 @@
 services:
   api:
+    image: somkiat/nodeapi:1.0
     build: ./api
     ports: [ "3000:3000" ]
     environment:

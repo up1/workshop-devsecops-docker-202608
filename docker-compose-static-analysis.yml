@@ -21,6 +21,17 @@ services:
     command: >
       -c "trivy fs --scanners vuln --format sarif --output trivy.sarif ./api || true"
 
+  trivy-image:
+    image: aquasec/trivy:latest
+    working_dir: /src
+    volumes:
+      - .:/src
+      - trivy-cache:/root/.cache/
+      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: sh
+    command: >
+      -c "trivy image --scanners vuln --format sarif --output trivy-image.sarif somkiat/nodeapi:1.0 || true"
+
   # SCA: npm's own advisory database check against package-lock.json
   npm-audit:
     image: node:24-alpine
