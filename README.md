@@ -13,3 +13,7 @@
   * Testing with Jest
   * Vulnerability Scanning with Trivy
   * Security with OWASP ZAP
+
+```
+checkout → build → unit tests → integration tests → SAST → SCA → container build → container scan → deploy (compose) → DAST → gate/report
+```
