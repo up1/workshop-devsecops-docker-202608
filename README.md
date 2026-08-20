@@ -99,3 +99,9 @@ $docker compose -f docker-compose-static-analysis.yml up semgrep --abort-on-cont
 $docker compose -f docker-compose-static-analysis.yml up trivy --abort-on-container-exit
 $docker compose -f docker-compose-static-analysis.yml down
 ```
+
+Commercial tools for static code analysis and dependency scanning
+* [Snyk](https://snyk.io/)
+* [WhiteSource](https://www.whitesourcesoftware.com/)
+* [Veracode](https://www.veracode.com/)
+* [Checkmarx](https://checkmarx.com/)
