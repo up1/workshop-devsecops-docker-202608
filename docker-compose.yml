@@ -1,0 +1,30 @@
+services:
+  api:
+    build: ./api
+    ports: [ "3000:3000" ]
+    environment:
+      PGHOST: db
+      PGUSER: appuser
+      PGPASSWORD: ${PGPASSWORD:-supersecret}
+      PGDATABASE: booksdb
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: ${PGPASSWORD:-supersecret}
+      POSTGRES_DB: booksdb
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U appuser -d booksdb" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes: { pgdata: {} }
+networks: { appnet: {} }
