@@ -2,6 +2,7 @@
 * REST API with NodeJS and Express
 * Database with PostgreSQL
 * Dockerizing the application
+* Testing with Jest, supertest and testcontainers
 
 ## Design pipeline
 * Continuous Integration with Jenkins
