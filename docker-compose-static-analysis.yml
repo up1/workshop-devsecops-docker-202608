@@ -1,0 +1,36 @@
+services:
+  # SAST: scans source code for insecure patterns (e.g. missing parameterization, XSS)
+  semgrep:
+    image: semgrep/semgrep:latest
+    working_dir: /src
+    volumes:
+      - .:/src
+    entrypoint: sh
+    command: >
+      -c "semgrep scan --config p/default --config p/javascript --config p/nodejs
+      --sarif --output semgrep.sarif --error || true"
+
+  # SCA: scans package-lock.json for known-vulnerable dependencies
+  trivy:
+    image: aquasec/trivy:latest
+    working_dir: /src
+    volumes:
+      - .:/src
+      - trivy-cache:/root/.cache/
+    entrypoint: sh
+    command: >
+      -c "trivy fs --scanners vuln --format sarif --output trivy.sarif ./api || true"
+
+  # SCA: npm's own advisory database check against package-lock.json
+  npm-audit:
+    image: node:24-alpine
+    working_dir: /src/api
+    volumes:
+      - ./api:/src/api
+    entrypoint: sh
+    command: >
+      -c "npm audit --audit-level=high --json > npm-audit.json || true;
+      npm audit --audit-level=high"
+
+volumes:
+  trivy-cache: {}

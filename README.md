@@ -86,3 +86,16 @@ Run test with docker compose
 $docker compose -f docker-compose-test.yml build
 $docker compose -f docker-compose-test.yml run --rm api-test
 ```
+
+## Static code analysis and dependency scanning
+* NPM audit for dependency scanning
+* SonarQube for static code analysis
+* [Semgrep](https://github.com/semgrep/semgrep) for static code analysis
+* [Trivy](https://github.com/aquasecurity/trivy) for dependency scanning
+
+```
+$docker compose -f docker-compose-static-analysis.yml up npm-audit --abort-on-container-exit
+$docker compose -f docker-compose-static-analysis.yml up semgrep --abort-on-container-exit
+$docker compose -f docker-compose-static-analysis.yml up trivy --abort-on-container-exit
+$docker compose -f docker-compose-static-analysis.yml down
+```
