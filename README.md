@@ -48,3 +48,8 @@ Get book by id
 ```
 $curl -i http://localhost:3000/api/books/1
 ```
+
+Remove the containers and volumes
+```
+$docker compose down -v
+```
