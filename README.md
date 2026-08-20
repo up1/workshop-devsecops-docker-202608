@@ -168,4 +168,23 @@ Check the health of the API
 $curl -i http://localhost:3000/health
 ```
 
+## Dynamic Application Security Testing (DAST) with OWASP ZAP
+* [OWASP ZAP](https://www.zaproxy.org/)
+* Testing with ZAP API
+```
+// Start the API service
+$docker compose up -d api
 
+// Simple baseline scan 1-2 minutes
+$docker compose -f docker-compose-dast.yml up zap-baseline --abort-on-container-exit
+
+// API scan 5-10 minutes (use the OpenAPI/Swagger spec to tune the scan)
+$docker compose -f docker-compose-dast.yml up zap-api-scan --abort-on-container-exit
+
+// Full active scan 30-60 minutes (manual/ad-hoc only, not for CI/CD)
+$docker compose -f docker-compose-dast.yml up zap-full-scan --abort-on-container-exit
+
+// Remove the containers and volumes
+$docker compose -f docker-compose-dast.yml down -v
+$docker compose down -v
+```

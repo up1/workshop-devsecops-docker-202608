@@ -1,3 +1,4 @@
 *.sarif
 npm-audit.json
 trivy.json
+zap-reports/

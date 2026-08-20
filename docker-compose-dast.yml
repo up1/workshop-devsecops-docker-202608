@@ -1,0 +1,35 @@
+services:
+  # DAST: passive scan, ~1-2 min, safe for CI — the workshop default
+  zap-baseline:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    network_mode: host
+    volumes:
+      - ./zap-reports:/zap/wrk:rw
+    entrypoint: sh
+    command: >
+      -c "zap-baseline.py -t http://localhost:3000
+      -r zap-baseline-report.html -J zap-baseline-report.json || true"
+
+  # DAST: imports the OpenAPI/Swagger spec and runs an API-tuned active scan
+  # requires the API to expose an OpenAPI spec (e.g. /openapi.json) — not yet added to this app
+  zap-api-scan:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    network_mode: host
+    volumes:
+      - ./zap-reports:/zap/wrk:rw
+    entrypoint: sh
+    command: >
+      -c "zap-api-scan.py -t http://localhost:3000/openapi.json -f openapi
+      -r zap-api-scan-report.html -J zap-api-scan-report.json || true"
+    
+
+  # DAST: full active scan, can run minutes to hours — never the CI default, run manually/ad-hoc only
+  zap-full-scan:
+    image: ghcr.io/zaproxy/zaproxy:stable
+    network_mode: host
+    volumes:
+      - ./zap-reports:/zap/wrk:rw
+    entrypoint: sh
+    command: >
+      -c "zap-full-scan.py -t http://localhost:3000
+      -r zap-full-scan-report.html -J zap-full-scan-report.json || true"
