@@ -42,5 +42,17 @@ services:
       api:
         condition: service_healthy
 
+  dev-test:
+    build:
+      context: ./api
+      target: test
+    environment:
+      NODE_ENV: test
+    volumes:
+      # integration tests use Testcontainers, which needs the host docker daemon
+      - ./api/reports:/app/reports
+      # matches the ../../../db/init.sql path the test resolves relative to the repo root
+      - ./db:/db:ro
+
 volumes: { pgdata: {} }
 networks: { appnet: {} }
