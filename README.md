@@ -81,7 +81,12 @@ $npm test
 $open coverage/lcov-report/index.html
 ```
 
-Run test with docker compose
+Run test with docker
+```
+$docker compose up dev-test --build --abort-on-container-exit
+```
+
+Run test with docker compose (separate docker-compose-test.yml file for testing)
 ```
 $docker compose -f docker-compose-test.yml build
 $docker compose -f docker-compose-test.yml run --rm api-test
