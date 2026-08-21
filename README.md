@@ -1,4 +1,4 @@
-# Workshop :: DevSecOps
+# Workshop :: DevSecOps 2026
 * REST API with NodeJS and Express
 * Database with PostgreSQL
 * Dockerizing the application
